@@ -1,13 +1,70 @@
-<html lang="en">
+<!DOCTYPE html>
+<html>
 <head>
-    <title>TWA</title>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News Details</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <script>
-        window.Telegram.WebApp.showAlert('Hello world!');
-    </script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 15px;
+            background-color: #f5f5f5;
+        }
+        .news-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .news-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .news-date {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        .news-description {
+            font-size: 16px;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+        .back-button {
+            background-color: #0088cc;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
-    <h1>Hello world!</h1>
+    <div id="news-content"></div>
+    <button class="back-button" onclick="window.Telegram.WebApp.close()">بازگشت</button>
+
+    <script>
+        // دریافت داده‌های خبر از پارامترهای URL
+        const params = new URLSearchParams(window.location.search);
+        const newsData = JSON.parse(decodeURIComponent(params.get('data')));
+        
+        // نمایش خبر
+        const newsContainer = document.getElementById('news-content');
+        newsContainer.innerHTML = `
+            <div class="news-container">
+                <div class="news-title">${newsData.title}</div>
+                <div class="news-date">تاریخ انتشار: ${newsData.published_at}</div>
+                <div class="news-description">${newsData.description}</div>
+            </div>
+        `;
+        
+        // تنظیمات اولیه WebApp تلگرام
+        window.Telegram.WebApp.expand();
+        window.Telegram.WebApp.enableClosingConfirmation();
+    </script>
 </body>
 </html>
